@@ -1,0 +1,59 @@
+﻿<catel:DataWindow x:Class="WPF.GettingStarted.Views.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				  xmlns:catel="http://catel.codeplex.com"
+				  xmlns:views="clr-namespace:WPF.GettingStarted.Views"
+				  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+				  ShowInTaskbar="True" ResizeMode="CanResize" SizeToContent="Manual" WindowStartupLocation="Manual" WindowState="Maximized">
+
+    <!-- Resources -->
+    <catel:DataWindow.Resources>
+    </catel:DataWindow.Resources>
+
+    <!-- Content -->
+    <catel:StackGrid>
+        <catel:StackGrid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </catel:StackGrid.RowDefinitions>
+
+        <catel:StackGrid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+        </catel:StackGrid.ColumnDefinitions>
+
+        <catel:StackGrid Grid.ColumnSpan="2">
+            <catel:StackGrid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </catel:StackGrid.ColumnDefinitions>
+
+            <Label Content="Filter:" />
+            <TextBox Text="{Binding SearchFilter}">
+                <i:Interaction.Behaviors>
+                    <catel:UpdateBindingOnTextChanged UpdateDelay="500" />
+                </i:Interaction.Behaviors>
+            </TextBox>
+        </catel:StackGrid>
+
+        <ListBox x:Name="listBox" ItemsSource="{Binding FilteredFamilies}" SelectedItem="{Binding SelectedFamily}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <i:Interaction.Behaviors>
+                            <catel:DoubleClickToCommand Command="{Binding ElementName=listBox, Path=DataContext.EditFamily}" />
+                        </i:Interaction.Behaviors>
+
+                        <views:FamilyView DataContext="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel>
+            <Button Command="{Binding AddFamily}" Content="Add..." />
+            <Button Command="{Binding EditFamily}" Content="Edit..." />
+            <Button Command="{Binding RemoveFamily}" Content="Remove" />
+        </StackPanel>
+    </catel:StackGrid>
+</catel:DataWindow>

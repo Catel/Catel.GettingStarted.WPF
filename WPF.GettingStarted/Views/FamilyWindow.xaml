@@ -1,0 +1,58 @@
+﻿<catel:DataWindow x:Class="WPF.GettingStarted.Views.FamilyWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				  xmlns:catel="http://catel.codeplex.com"
+				  xmlns:views="clr-namespace:WPF.GettingStarted.Views"
+				  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+				  Width="600" Height="400" SizeToContent="Manual">
+
+    <!-- Resources -->
+    <catel:DataWindow.Resources>
+    </catel:DataWindow.Resources>
+
+    <!-- Content -->
+    <catel:StackGrid>
+        <catel:StackGrid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </catel:StackGrid.RowDefinitions>
+
+        <catel:StackGrid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </catel:StackGrid.ColumnDefinitions>
+
+        <Label Content="Family name" />
+        <TextBox Text="{Binding FamilyName, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+        <Label Grid.ColumnSpan="2" Content="Persons" />
+
+        <catel:StackGrid Grid.ColumnSpan="2">
+            <catel:StackGrid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </catel:StackGrid.ColumnDefinitions>
+
+            <ListBox x:Name="listBox" ItemsSource="{Binding Persons}" SelectedItem="{Binding SelectedPerson}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <i:Interaction.Behaviors>
+                                <catel:DoubleClickToCommand Command="{Binding ElementName=listBox, Path=DataContext.EditPerson}" />
+                            </i:Interaction.Behaviors>
+
+                            <views:PersonView DataContext="{Binding}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel>
+                <Button Command="{Binding AddPerson}" Content="Add..." />
+                <Button Command="{Binding EditPerson}" Content="Edit..." />
+                <Button Command="{Binding RemovePerson}" Content="Remove" />
+            </StackPanel>
+        </catel:StackGrid>
+    </catel:StackGrid>
+</catel:DataWindow>
